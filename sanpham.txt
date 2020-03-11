@@ -19,7 +19,7 @@
 --admin:
     Thêm xóa sửa, nsx ,loại sp,
     Thêm xóa sửa sản phẩm
-
+-- chuan bi
 --log
 	load tat ca don hang
 	admin: chap nhan dh->dang van chuyen
