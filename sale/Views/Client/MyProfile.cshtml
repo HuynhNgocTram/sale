@@ -1,0 +1,63 @@
+﻿
+@{
+    ViewBag.Title = "MyProfile";
+}
+
+<h2>MyProfile</h2>
+
+<h3>Đơn hàng đang chờ</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                Mã đơn hàng
+            </th>
+            <th>
+                Tổng tiền
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (ORDER i in ViewBag.waitOrder)
+        {
+            <tr>
+                <td>
+                    @i.voucherID
+                </td>
+                <td>
+                    @i.amount
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h3>Đơn hàng đã nhận</h3>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                Mã đơn hàng
+            </th>
+            <th>
+                Tổng tiền
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (ORDER i in ViewBag.receivedOrder)
+        {
+            <tr>
+                <td>
+                    @i.voucherID
+                </td>
+                <td>
+                    @i.amount
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

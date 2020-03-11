@@ -1,0 +1,441 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SALEModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ACCOUNT">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="1000" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
+          <Property Name="BirthDay" Type="date" />
+          <Property Name="Gender" Type="bit" />
+          <Property Name="Type" Type="tinyint" />
+        </EntityType>
+        <EntityType Name="DetailORDER">
+          <Key>
+            <PropertyRef Name="detailID" />
+          </Key>
+          <Property Name="detailID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="voucherID" Type="varchar" MaxLength="50" />
+          <Property Name="productID" Type="varchar" MaxLength="50" />
+          <Property Name="number" Type="int" />
+        </EntityType>
+        <EntityType Name="ORDER">
+          <Key>
+            <PropertyRef Name="voucherID" />
+          </Key>
+          <Property Name="voucherID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserID" Type="varchar" MaxLength="50" />
+          <Property Name="amount" Type="decimal" Precision="28" Scale="8" />
+          <Property Name="orderDate" Type="datetime" />
+          <Property Name="status" Type="int" />
+        </EntityType>
+        <EntityType Name="PRODUCER">
+          <Key>
+            <PropertyRef Name="producerID" />
+          </Key>
+          <Property Name="producerID" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" />
+          <Property Name="location" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="PRODUCT">
+          <Key>
+            <PropertyRef Name="productID" />
+          </Key>
+          <Property Name="productID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" />
+          <Property Name="detail" Type="nvarchar" MaxLength="100" />
+          <Property Name="price" Type="decimal" Precision="28" Scale="8" />
+          <Property Name="typeID" Type="varchar" MaxLength="10" />
+          <Property Name="producerID" Type="varchar" MaxLength="10" />
+          <Property Name="createDate" Type="date" />
+          <Property Name="saleCount" Type="int" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="TYPE">
+          <Key>
+            <PropertyRef Name="typeID" />
+          </Key>
+          <Property Name="typeID" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <Association Name="FK_CART_ACCOUNT">
+          <End Role="ACCOUNT" Type="Self.ACCOUNT" Multiplicity="0..1" />
+          <End Role="ORDER" Type="Self.ORDER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ACCOUNT">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="ORDER">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DetailCART_CART">
+          <End Role="ORDER" Type="Self.ORDER" Multiplicity="0..1" />
+          <End Role="DetailORDER" Type="Self.DetailORDER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ORDER">
+              <PropertyRef Name="voucherID" />
+            </Principal>
+            <Dependent Role="DetailORDER">
+              <PropertyRef Name="voucherID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DetailCART_PRODUCT">
+          <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="0..1" />
+          <End Role="DetailORDER" Type="Self.DetailORDER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCT">
+              <PropertyRef Name="productID" />
+            </Principal>
+            <Dependent Role="DetailORDER">
+              <PropertyRef Name="productID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUCT_PRODUCER">
+          <End Role="PRODUCER" Type="Self.PRODUCER" Multiplicity="0..1" />
+          <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCER">
+              <PropertyRef Name="producerID" />
+            </Principal>
+            <Dependent Role="PRODUCT">
+              <PropertyRef Name="producerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUCT_TYPE">
+          <End Role="TYPE" Type="Self.TYPE" Multiplicity="0..1" />
+          <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TYPE">
+              <PropertyRef Name="typeID" />
+            </Principal>
+            <Dependent Role="PRODUCT">
+              <PropertyRef Name="typeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SALEModelStoreContainer">
+          <EntitySet Name="ACCOUNT" EntityType="Self.ACCOUNT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DetailORDER" EntityType="Self.DetailORDER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ORDER" EntityType="Self.ORDER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PRODUCER" EntityType="Self.PRODUCER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PRODUCT" EntityType="Self.PRODUCT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TYPE" EntityType="Self.TYPE" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CART_ACCOUNT" Association="Self.FK_CART_ACCOUNT">
+            <End Role="ACCOUNT" EntitySet="ACCOUNT" />
+            <End Role="ORDER" EntitySet="ORDER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetailCART_CART" Association="Self.FK_DetailCART_CART">
+            <End Role="ORDER" EntitySet="ORDER" />
+            <End Role="DetailORDER" EntitySet="DetailORDER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetailCART_PRODUCT" Association="Self.FK_DetailCART_PRODUCT">
+            <End Role="PRODUCT" EntitySet="PRODUCT" />
+            <End Role="DetailORDER" EntitySet="DetailORDER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUCT_PRODUCER" Association="Self.FK_PRODUCT_PRODUCER">
+            <End Role="PRODUCER" EntitySet="PRODUCER" />
+            <End Role="PRODUCT" EntitySet="PRODUCT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUCT_TYPE" Association="Self.FK_PRODUCT_TYPE">
+            <End Role="TYPE" EntitySet="TYPE" />
+            <End Role="PRODUCT" EntitySet="PRODUCT" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SALEModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ACCOUNT">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BirthDay" Type="DateTime" Precision="0" />
+          <Property Name="Gender" Type="Boolean" />
+          <Property Name="Type" Type="Byte" />
+          <NavigationProperty Name="ORDERs" Relationship="Self.FK_CART_ACCOUNT" FromRole="ACCOUNT" ToRole="ORDER" />
+        </EntityType>
+        <EntityType Name="DetailORDER">
+          <Key>
+            <PropertyRef Name="detailID" />
+          </Key>
+          <Property Name="detailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="voucherID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="productID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="number" Type="Int32" />
+          <NavigationProperty Name="ORDER" Relationship="Self.FK_DetailCART_CART" FromRole="DetailORDER" ToRole="ORDER" />
+          <NavigationProperty Name="PRODUCT" Relationship="Self.FK_DetailCART_PRODUCT" FromRole="DetailORDER" ToRole="PRODUCT" />
+        </EntityType>
+        <EntityType Name="ORDER">
+          <Key>
+            <PropertyRef Name="voucherID" />
+          </Key>
+          <Property Name="voucherID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UserID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="amount" Type="Decimal" Precision="28" Scale="8" />
+          <Property Name="orderDate" Type="DateTime" Precision="3" />
+          <Property Name="status" Type="Int32" />
+          <NavigationProperty Name="ACCOUNT" Relationship="Self.FK_CART_ACCOUNT" FromRole="ORDER" ToRole="ACCOUNT" />
+          <NavigationProperty Name="DetailORDERs" Relationship="Self.FK_DetailCART_CART" FromRole="ORDER" ToRole="DetailORDER" />
+        </EntityType>
+        <EntityType Name="PRODUCER">
+          <Key>
+            <PropertyRef Name="producerID" />
+          </Key>
+          <Property Name="producerID" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="location" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PRODUCTs" Relationship="Self.FK_PRODUCT_PRODUCER" FromRole="PRODUCER" ToRole="PRODUCT" />
+        </EntityType>
+        <EntityType Name="PRODUCT">
+          <Key>
+            <PropertyRef Name="productID" />
+          </Key>
+          <Property Name="productID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="detail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="price" Type="Decimal" Precision="28" Scale="8" />
+          <Property Name="typeID" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="producerID" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="createDate" Type="DateTime" Precision="0" />
+          <Property Name="saleCount" Type="Int32" />
+          <NavigationProperty Name="DetailORDERs" Relationship="Self.FK_DetailCART_PRODUCT" FromRole="PRODUCT" ToRole="DetailORDER" />
+          <NavigationProperty Name="PRODUCER" Relationship="Self.FK_PRODUCT_PRODUCER" FromRole="PRODUCT" ToRole="PRODUCER" />
+          <NavigationProperty Name="TYPE" Relationship="Self.FK_PRODUCT_TYPE" FromRole="PRODUCT" ToRole="TYPE" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="TYPE">
+          <Key>
+            <PropertyRef Name="typeID" />
+          </Key>
+          <Property Name="typeID" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PRODUCTs" Relationship="Self.FK_PRODUCT_TYPE" FromRole="TYPE" ToRole="PRODUCT" />
+        </EntityType>
+        <Association Name="FK_CART_ACCOUNT">
+          <End Role="ACCOUNT" Type="Self.ACCOUNT" Multiplicity="0..1" />
+          <End Role="ORDER" Type="Self.ORDER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ACCOUNT">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="ORDER">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DetailCART_CART">
+          <End Role="ORDER" Type="Self.ORDER" Multiplicity="0..1" />
+          <End Role="DetailORDER" Type="Self.DetailORDER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ORDER">
+              <PropertyRef Name="voucherID" />
+            </Principal>
+            <Dependent Role="DetailORDER">
+              <PropertyRef Name="voucherID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DetailCART_PRODUCT">
+          <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="0..1" />
+          <End Role="DetailORDER" Type="Self.DetailORDER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCT">
+              <PropertyRef Name="productID" />
+            </Principal>
+            <Dependent Role="DetailORDER">
+              <PropertyRef Name="productID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUCT_PRODUCER">
+          <End Role="PRODUCER" Type="Self.PRODUCER" Multiplicity="0..1" />
+          <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCER">
+              <PropertyRef Name="producerID" />
+            </Principal>
+            <Dependent Role="PRODUCT">
+              <PropertyRef Name="producerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUCT_TYPE">
+          <End Role="TYPE" Type="Self.TYPE" Multiplicity="0..1" />
+          <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TYPE">
+              <PropertyRef Name="typeID" />
+            </Principal>
+            <Dependent Role="PRODUCT">
+              <PropertyRef Name="typeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SALEEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ACCOUNTs" EntityType="Self.ACCOUNT" />
+          <EntitySet Name="DetailORDERs" EntityType="Self.DetailORDER" />
+          <EntitySet Name="ORDERs" EntityType="Self.ORDER" />
+          <EntitySet Name="PRODUCERs" EntityType="Self.PRODUCER" />
+          <EntitySet Name="PRODUCTs" EntityType="Self.PRODUCT" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="TYPEs" EntityType="Self.TYPE" />
+          <AssociationSet Name="FK_CART_ACCOUNT" Association="Self.FK_CART_ACCOUNT">
+            <End Role="ACCOUNT" EntitySet="ACCOUNTs" />
+            <End Role="ORDER" EntitySet="ORDERs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetailCART_CART" Association="Self.FK_DetailCART_CART">
+            <End Role="ORDER" EntitySet="ORDERs" />
+            <End Role="DetailORDER" EntitySet="DetailORDERs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetailCART_PRODUCT" Association="Self.FK_DetailCART_PRODUCT">
+            <End Role="PRODUCT" EntitySet="PRODUCTs" />
+            <End Role="DetailORDER" EntitySet="DetailORDERs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUCT_PRODUCER" Association="Self.FK_PRODUCT_PRODUCER">
+            <End Role="PRODUCER" EntitySet="PRODUCERs" />
+            <End Role="PRODUCT" EntitySet="PRODUCTs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUCT_TYPE" Association="Self.FK_PRODUCT_TYPE">
+            <End Role="TYPE" EntitySet="TYPEs" />
+            <End Role="PRODUCT" EntitySet="PRODUCTs" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SALEModelStoreContainer" CdmEntityContainer="SALEEntities">
+          <EntitySetMapping Name="ACCOUNTs">
+            <EntityTypeMapping TypeName="SALEModel.ACCOUNT">
+              <MappingFragment StoreEntitySet="ACCOUNT">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="BirthDay" ColumnName="BirthDay" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DetailORDERs">
+            <EntityTypeMapping TypeName="SALEModel.DetailORDER">
+              <MappingFragment StoreEntitySet="DetailORDER">
+                <ScalarProperty Name="detailID" ColumnName="detailID" />
+                <ScalarProperty Name="voucherID" ColumnName="voucherID" />
+                <ScalarProperty Name="productID" ColumnName="productID" />
+                <ScalarProperty Name="number" ColumnName="number" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ORDERs">
+            <EntityTypeMapping TypeName="SALEModel.ORDER">
+              <MappingFragment StoreEntitySet="ORDER">
+                <ScalarProperty Name="voucherID" ColumnName="voucherID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="orderDate" ColumnName="orderDate" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PRODUCERs">
+            <EntityTypeMapping TypeName="SALEModel.PRODUCER">
+              <MappingFragment StoreEntitySet="PRODUCER">
+                <ScalarProperty Name="producerID" ColumnName="producerID" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="location" ColumnName="location" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PRODUCTs">
+            <EntityTypeMapping TypeName="SALEModel.PRODUCT">
+              <MappingFragment StoreEntitySet="PRODUCT">
+                <ScalarProperty Name="productID" ColumnName="productID" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="detail" ColumnName="detail" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="typeID" ColumnName="typeID" />
+                <ScalarProperty Name="producerID" ColumnName="producerID" />
+                <ScalarProperty Name="createDate" ColumnName="createDate" />
+                <ScalarProperty Name="saleCount" ColumnName="saleCount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="SALEModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TYPEs">
+            <EntityTypeMapping TypeName="SALEModel.TYPE">
+              <MappingFragment StoreEntitySet="TYPE">
+                <ScalarProperty Name="typeID" ColumnName="typeID" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

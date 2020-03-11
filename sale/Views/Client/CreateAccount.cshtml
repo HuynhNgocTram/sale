@@ -1,0 +1,75 @@
+﻿
+@{
+    ViewBag.Title = "CreateAccount";
+}
+
+<h2>CreateAccount</h2>
+<form id="form1" action="/Client/CreateAccount" method="post">
+    <div class="form-horizontal">
+        
+        <div class="form-group">
+            <label class="control-label col-md-2">User</label>
+            <div class="col-md-10">
+                <input type="text" name="UserID" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">password</label>
+            <div class="col-md-10">
+                <input type="password" name="Password" id="Password"/>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Check password</label>
+            <div class="col-md-10">
+                <input type="password" name="checkPassword" id="checkPassword" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Email</label>
+            <div class="col-md-10">
+                <input type="text" name="Email" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Birthday</label>
+            <div class="col-md-10">
+                <input type="date" name="BirthDay" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Gender</label>
+            <div class="col-md-10">
+                @*<input type="" name="Gender" />*@
+                <select name="gender">
+                    <option value="true">Male</option>
+                    <option value="false">Female</option>
+                </select>
+            </div>
+        </div>
+
+    </div>
+    <div>
+        <button type="submit" onclick="return Validate()">Tạo</button>
+    </div>
+
+</form>
+
+<script type="text/javascript">
+    function Validate() {
+        var password = $("#Password").val();
+        var confirmPassword = $("#checkPassword").val();
+        if (password != confirmPassword) {
+            alert("Passwords do not match.");
+            return false;
+        }
+        return true;
+    }
+</script>
+

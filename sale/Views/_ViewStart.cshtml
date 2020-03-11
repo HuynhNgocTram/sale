@@ -1,0 +1,11 @@
+﻿@{
+    if(ViewContext.Controller is sale.Controllers.AdminController)
+    {
+        Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_LayoutCustomer.cshtml";
+    }
+
+}

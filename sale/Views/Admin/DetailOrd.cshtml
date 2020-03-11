@@ -1,0 +1,44 @@
+﻿
+@{
+    ViewBag.Title = "DetailOrd";
+}
+
+<h2>DetailOrd</h2>
+
+<table class="table table-striped" >
+    <thead>
+        <tr>
+            <th>
+                productID
+            </th>
+            <th>
+                name
+            </th>
+            <th>
+                price
+            </th>
+            <th>
+                number
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (DetailORDER i in Model)
+        {
+            <tr>
+                <td>
+                    @i.productID
+                </td>
+                <td>
+                    @i.PRODUCT.name
+                </td>
+                <td>
+                    @i.PRODUCT.price
+                </td>
+                <td>
+                    @i.number
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

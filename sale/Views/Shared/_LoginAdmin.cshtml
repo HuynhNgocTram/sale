@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewBag.Title = "_LoginAdmin";
+}
+
+<h2>_LoginAdmin</h2>
+
+@if (Session["Account"] != null)
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="/Admin/Logout">Logout</a></li>
+        <li><a href="/Admin/MyProfile">My Profile</a></li>
+    </ul>
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="/Admin/Login">Login</a></li>
+        <li><a href="/Admin/Register">Register</a></li>
+        @* <li>@Html.ActionLink("Register", "Register", "Client", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>*@
+        @*<li>@Html.ActionLink("Log in", "Login", "Client", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>*@
+    </ul>
+}

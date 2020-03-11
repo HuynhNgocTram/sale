@@ -1,0 +1,139 @@
+﻿
+@{
+    ViewBag.Title = "HomePage";
+}
+
+<h2>HomePage</h2>
+
+<h2>Producers</h2>
+<table>
+    <thead>
+        <tr>
+            <th>
+                Mã NSX
+            </th>
+            <th>
+                Tên
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var i in Model.producers)
+        {
+            <tr>
+                <td>@i.producerID</td>
+                <td >@i.name</td>
+                <td>@i.location</td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+
+
+<h2>Type</h2>
+<table>
+    <thead>
+        <tr>
+            <th>
+                Mã Loại
+            </th>
+            <th>
+                Tên
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var i in Model.types)
+        {
+            <tr>
+                <td>@i.typeID</td>
+                <td>@i.name</td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+
+
+<h2>San phẩm mới nhất</h2>
+<table>
+    <thead>
+        <tr>
+            <th>
+                Mã Loại
+            </th>
+            <th>
+                Tên
+            </th>
+           
+            <th>
+                Giá
+            </th>
+           
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var i in Model.newProducts)
+        {
+            <tr>
+                <td>@i.productID</td>
+                <td onclick="Detail('@i.productID')" > <a> @i.name </a></td>
+                <td>@i.price</td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+
+
+
+<h2>San phẩm bán chạy nhất</h2>
+<table>
+    <thead>
+        <tr>
+            <th>
+                Mã Loại
+            </th>
+            <th>
+                Tên
+            </th>
+            <th>
+                Chi tiết
+            </th>
+            <th>
+                Giá
+            </th>
+            <th>
+                NSX
+            </th>
+            <th>
+                Loại
+            </th>
+            <th>
+                Ngày ra mắt
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var i in Model.bigsaleProduct)
+        {
+            <tr>
+                <td>@i.productID</td>
+                <td>@i.name</td>
+                <td>@i.detail</td>
+                <td>@i.price</td>
+                <td>@i.PRODUCER.name</td>
+                <td>@i.TYPE.name</td>
+                <td>@i.createDate</td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+<script>
+    function Detail(id)
+    {
+        window.location.href = "/Client/DetailProduct?id=" + id;
+    }
+</script>

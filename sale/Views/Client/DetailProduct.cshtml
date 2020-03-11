@@ -1,0 +1,81 @@
+﻿@model sale.PRODUCT
+
+@{
+    ViewBag.Title = "DetailProduct";
+}
+
+<h2>DetailProduct</h2>
+
+<div>
+    <h4>PRODUCT</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.detail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.detail)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.createDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.createDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.saleCount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.saleCount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PRODUCER.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PRODUCER.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TYPE.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TYPE.name)
+        </dd>
+
+    </dl>
+</div>
+
+<form action="/Client/AddToORDER" method="post">
+    <input class="hidden" name="id" value="@Model.productID" />
+    <input name="soluong" type="number" min="1" />
+    <button type="submit">Thêm giỏ hàng</button>
+</form>
+
+@*<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.productID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>*@

@@ -1,0 +1,146 @@
+﻿
+@{
+    ViewBag.Title = "HomePage";
+}
+
+<h2>HomePage</h2>
+<h2>Search Product</h2>
+<p>Nhập Mã hoặc tên</p>
+
+<form action="/Client/Search" method="get">
+    <input id="searchProduct" name="searchProduct" list="listProducts" style="width:400px" />
+    <datalist id="listProducts">
+        @foreach (var i in Model.listProducts)
+        {
+            <option value="@i.productID">@i.name</option>
+        }
+    </datalist>
+    <button class="btn btn-danger" type="submit" >Search</button>
+</form>
+
+<h2>Producers</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                Mã NSX
+            </th>
+            <th>
+                Tên
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var i in Model.producers)
+        {
+            <tr>
+                <td>@i.producerID</td>
+                <td>@i.name</td>
+                <td>@i.location</td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+
+
+<h2>Type</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                Mã Loại
+            </th>
+            <th>
+                Tên
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var i in Model.types)
+        {
+            <tr>
+                <td>@i.typeID</td>
+                <td>@i.name</td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+
+
+<h2>San phẩm mới nhất</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                Mã Loại
+            </th>
+            <th>
+                Tên
+            </th>
+
+            <th>
+                Giá
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var i in Model.newProducts)
+        {
+            <tr style="padding: 8px;text-align: left;border-bottom: 1px solid #ddd">
+                <td>@i.productID</td>
+                <td onclick="Detail('@i.productID')"> <a> @i.name </a></td>
+                <td>@i.price</td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+
+
+
+<h2>San phẩm bán chạy nhất</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                Mã Loại
+            </th>
+            <th>
+                Tên
+            </th>
+            <th>
+                Chi tiết
+            </th>
+            <th>
+                Giá
+            </th>
+            <th>
+                NSX
+            </th>
+            <th>
+                Loại
+            </th>
+            <th>
+                Ngày ra mắt
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var i in Model.bigsaleProduct)
+        {
+            <tr>
+                <td>@i.productID</td>
+                <td>@i.name</td>
+                <td>@i.detail</td>
+                <td>@i.price</td>
+                <td>@i.PRODUCER.name</td>
+                <td>@i.TYPE.name</td>
+                <td>@i.createDate</td>
+            </tr>
+
+        }
+    </tbody>
+</table>

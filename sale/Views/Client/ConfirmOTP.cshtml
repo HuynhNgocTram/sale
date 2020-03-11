@@ -1,0 +1,14 @@
+﻿
+@{
+    ViewBag.Title = "ConfirmOTP";
+}
+
+<h2>ConfirmOTP</h2>
+
+<label>Nhập mã</label>
+<form action="/Client/DoneConfirmOTP" method="get">
+    <input type="text" name="otp" />
+    <button type="submit" >Confirm</button>
+    
+</form>
+<button class="btn btn-success" onclick="ResendOTP()" id="btnResend"  >Resend</button>

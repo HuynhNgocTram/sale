@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "Search";
+}
+
+<h2>Search</h2>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>
+                Mã Loại
+            </th>
+            <th>
+                Tên
+            </th>
+
+            <th>
+                Giá
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var i in Model)
+        {
+            <tr>
+                <td>
+                    @i.productID
+                </td>
+                <td onclick="Detail('@i.productID')">
+                    <a>@i.name</a>
+                </td>
+                <td>
+                    @i.price
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

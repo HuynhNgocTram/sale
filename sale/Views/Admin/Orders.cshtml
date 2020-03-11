@@ -1,0 +1,159 @@
+﻿
+@model List<ORDER>
+
+@{
+    ViewBag.Title = "Orders";
+}
+
+<h2>Orders</h2>
+
+
+<h3>Đơn hàng chờ </h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                UserID
+            </th>
+            <th>
+                Mã đơn hàng
+            </th>
+            <th>
+                Tổng tiền
+            </th>
+            <th>
+                Cập nhật trạng thái
+            </th>
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (ORDER i in ViewBag.waitOrder)
+        {
+            <tr>
+                <td>
+                    <a href="/Admin/DetailCus?id=@i.UserID"> @i.UserID</a>
+                </td>
+                <td>
+                    <a href="/Admin/DetailOrd?id=@i.voucherID">@i.voucherID</a>
+                </td>
+                <td>
+                    @i.amount
+                </td>
+                <td>
+                    <select id="@i.voucherID" name="status" onchange="sendserver('@i.voucherID')">
+                        @if (i.status == 0)
+                        {
+                            <option value="0" selected>
+                                Chờ xác nhận
+                            </option>
+                        }
+                        else
+                        {
+                            <option value="0">
+                                Chờ xác nhận
+                            </option>
+                        }
+                        @if (i.status == 1)
+                        {
+                            <option value="1" selected>
+                                Xác nhận
+                            </option>
+                        }
+                        else
+                        {
+                            <option value="1">
+                                Xác nhận
+                            </option>
+                        }
+
+                        @if (i.status == 2)
+                        {
+                            <option value="2" selected>
+                                Vận chuyển
+                            </option>
+                        }
+                        else
+                        {
+                            <option value="2">
+                                Vận chuyển
+                            </option>
+                        }
+
+                        @if (i.status == 3)
+                        {
+                            <option value="3" selected>
+                                Hoàn thành
+                            </option>
+                        }
+                        else
+                        {
+                            <option value="3">
+                                Hoàn thành
+                            </option>
+                        }
+
+                    </select>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+
+</table>
+
+
+<h3>Đơn hàng đã nhận</h3>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                Mã đơn hàng
+            </th>
+            <th>
+                Tổng tiền
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (ORDER i in ViewBag.receivedOrder)
+        {
+            <tr>
+                <td>
+                    @i.voucherID
+                </td>
+                <td>
+                    @i.amount
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<script>
+    function sendserver(id) {
+        var val = $("#" + id).val();
+
+        //var url = "/Admin/UpdateStatus?id=" + id + "&value=" + val;
+        //location.href = url;
+        $.ajax({
+            type: "POST",
+            url: "/Admin/UpdateStatus?id=" + id + "&value=" + val,
+            data: {},
+            success: function (e) {
+                if (e.error == false) {
+                    alert(e.message)
+                } else {
+                    alert(e.message)
+                }
+            }
+        })
+
+
+        //console.log(id, val);
+    }
+</script>

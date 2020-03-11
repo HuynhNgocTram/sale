@@ -1,0 +1,31 @@
+
+//Chi tiet:
+-Thể hiện thông tin sản phẩm điện thoại  (masp,ten,chitiet,giatien,loai,nsx) -> nút đạt giỏ hàng
+-5 sản phẩm cùng loại  mới loại
+-5 nhà sản xuất.
+
+//sreach:
+-nhap tên or ma:  -> danh sách sản phẩm (xem chi tiet, dặt giỏ hàng)
+-> sreach theo nsx,loại sản phẩm
+
+//giỏ hàng:
+    - show danh sách giỏ hàng: 
+    - tăng số lượng, giảm số lượng
+
+//trang chủ khach hang:12:24 30-Jan-20
+ -- show ra danh sach nxs, loại sản phẩm
+ -- show 5 sản phẩm mới nhất, bán chạy nhất, 
+
+--admin:
+    Thêm xóa sửa, nsx ,loại sp,
+    Thêm xóa sửa sản phẩm
+
+--log
+	load tat ca don hang
+	admin: chap nhan dh->dang van chuyen
+		hoan thanh->nhan hang
+
+-- chia layout khachhang-admin
+-- chi tiet hoa don
+-- chi tiet khach hang
+-- trang chu admin (dashboard)

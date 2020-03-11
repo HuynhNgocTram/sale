@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewBag.Title = "ORDER";
+}
+
+<h2>ORDER</h2>
+
+<table style="border-collapse: collapse">
+    <thead>
+        <tr>
+            <th>
+                Mã SP
+            </th>
+            <th>
+                Tên SP
+            </th>
+            <th>
+                SL
+            </th>
+            <th>
+                Giá
+            </th>
+            <th>
+                Tổng tiền
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.pro.productID
+                </td>
+                <td>
+                    @item.pro.name
+                </td>
+                <td>
+                    @item.soluong
+                </td>
+                <td>
+                    @item.pro.price
+                </td>
+                <td>
+                    @item.tongtien()
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.pro.productID }) |
+                    @Html.ActionLink("Delete", "DeleteORDER", new { id = item.pro.productID })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a class="btn btn-success" href="/Client/Order">Đặt hàng</a>

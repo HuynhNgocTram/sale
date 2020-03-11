@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SALEModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="ACCOUNT">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="1000" />
+    <Property Name="Email" Type="varchar" MaxLength="50" />
+    <Property Name="BirthDay" Type="date" />
+    <Property Name="Gender" Type="bit" />
+    <Property Name="Type" Type="tinyint" />
+  </EntityType>
+  <EntityType Name="DetailORDER">
+    <Key>
+      <PropertyRef Name="detailID" />
+    </Key>
+    <Property Name="detailID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="voucherID" Type="varchar" MaxLength="50" />
+    <Property Name="productID" Type="varchar" MaxLength="50" />
+    <Property Name="number" Type="int" />
+  </EntityType>
+  <EntityType Name="ORDER">
+    <Key>
+      <PropertyRef Name="voucherID" />
+    </Key>
+    <Property Name="voucherID" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="UserID" Type="varchar" MaxLength="50" />
+    <Property Name="amount" Type="decimal" Precision="28" Scale="8" />
+    <Property Name="orderDate" Type="datetime" />
+    <Property Name="status" Type="int" />
+  </EntityType>
+  <EntityType Name="PRODUCER">
+    <Key>
+      <PropertyRef Name="producerID" />
+    </Key>
+    <Property Name="producerID" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="100" />
+    <Property Name="location" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="PRODUCT">
+    <Key>
+      <PropertyRef Name="productID" />
+    </Key>
+    <Property Name="productID" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="100" />
+    <Property Name="detail" Type="nvarchar" MaxLength="100" />
+    <Property Name="price" Type="decimal" Precision="28" Scale="8" />
+    <Property Name="typeID" Type="varchar" MaxLength="10" />
+    <Property Name="producerID" Type="varchar" MaxLength="10" />
+    <Property Name="createDate" Type="date" />
+    <Property Name="saleCount" Type="int" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="TYPE">
+    <Key>
+      <PropertyRef Name="typeID" />
+    </Key>
+    <Property Name="typeID" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <Association Name="FK_CART_ACCOUNT">
+    <End Role="ACCOUNT" Type="Self.ACCOUNT" Multiplicity="0..1" />
+    <End Role="ORDER" Type="Self.ORDER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ACCOUNT">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="ORDER">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DetailCART_CART">
+    <End Role="ORDER" Type="Self.ORDER" Multiplicity="0..1" />
+    <End Role="DetailORDER" Type="Self.DetailORDER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ORDER">
+        <PropertyRef Name="voucherID" />
+      </Principal>
+      <Dependent Role="DetailORDER">
+        <PropertyRef Name="voucherID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DetailCART_PRODUCT">
+    <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="0..1" />
+    <End Role="DetailORDER" Type="Self.DetailORDER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PRODUCT">
+        <PropertyRef Name="productID" />
+      </Principal>
+      <Dependent Role="DetailORDER">
+        <PropertyRef Name="productID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PRODUCT_PRODUCER">
+    <End Role="PRODUCER" Type="Self.PRODUCER" Multiplicity="0..1" />
+    <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PRODUCER">
+        <PropertyRef Name="producerID" />
+      </Principal>
+      <Dependent Role="PRODUCT">
+        <PropertyRef Name="producerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PRODUCT_TYPE">
+    <End Role="TYPE" Type="Self.TYPE" Multiplicity="0..1" />
+    <End Role="PRODUCT" Type="Self.PRODUCT" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TYPE">
+        <PropertyRef Name="typeID" />
+      </Principal>
+      <Dependent Role="PRODUCT">
+        <PropertyRef Name="typeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="SALEModelStoreContainer">
+    <EntitySet Name="ACCOUNT" EntityType="Self.ACCOUNT" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DetailORDER" EntityType="Self.DetailORDER" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ORDER" EntityType="Self.ORDER" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PRODUCER" EntityType="Self.PRODUCER" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PRODUCT" EntityType="Self.PRODUCT" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TYPE" EntityType="Self.TYPE" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_CART_ACCOUNT" Association="Self.FK_CART_ACCOUNT">
+      <End Role="ACCOUNT" EntitySet="ACCOUNT" />
+      <End Role="ORDER" EntitySet="ORDER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DetailCART_CART" Association="Self.FK_DetailCART_CART">
+      <End Role="ORDER" EntitySet="ORDER" />
+      <End Role="DetailORDER" EntitySet="DetailORDER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DetailCART_PRODUCT" Association="Self.FK_DetailCART_PRODUCT">
+      <End Role="PRODUCT" EntitySet="PRODUCT" />
+      <End Role="DetailORDER" EntitySet="DetailORDER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PRODUCT_PRODUCER" Association="Self.FK_PRODUCT_PRODUCER">
+      <End Role="PRODUCER" EntitySet="PRODUCER" />
+      <End Role="PRODUCT" EntitySet="PRODUCT" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PRODUCT_TYPE" Association="Self.FK_PRODUCT_TYPE">
+      <End Role="TYPE" EntitySet="TYPE" />
+      <End Role="PRODUCT" EntitySet="PRODUCT" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

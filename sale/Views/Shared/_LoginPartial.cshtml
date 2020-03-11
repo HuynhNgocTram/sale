@@ -1,0 +1,39 @@
+﻿@*@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+    @Html.AntiForgeryToken()
+
+    <ul class="nav navbar-nav navbar-right">
+        <li>Profilr</li>
+        <li><a href="">Log off</a></li>
+    </ul>
+
+    }
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>@Html.ActionLink("Register", "Register", "Client", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+        <li>@Html.ActionLink("Log in", "Login", "Client", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    </ul>
+}*@
+
+@if (Session["Account"] != null)
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="/Client/Logout">Logout</a></li>
+        <li><a href="/Client/ORDER">ORDER</a></li>
+        <li><a href="/Client/MyProfile">My Profile</a></li>
+    </ul>
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="/Client/Login">Login</a></li>
+        <li><a href="/Client/CreateAccount">Register</a></li>
+       @* <li>@Html.ActionLink("Register", "Register", "Client", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>*@
+        @*<li>@Html.ActionLink("Log in", "Login", "Client", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>*@
+    </ul>
+}

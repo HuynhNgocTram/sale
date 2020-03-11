@@ -1,0 +1,122 @@
+﻿@model IEnumerable<sale.PRODUCT>
+
+@{
+    ViewBag.Title = "Products";
+}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<h2>Products</h2>
+
+<p>
+    @Html.ActionLink("Create New", "CreateProduct")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            name
+        </th>
+        <th>
+            description
+        </th>
+        <th>
+            price
+        </th>
+        <th>
+            producer
+        </th>
+        <th>
+            type
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.detail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PRODUCER.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TYPE.name)
+            </td>
+            <td>
+                <button class="edit-product" data-id-product="@item.productID">Edit</button>|
+                @Html.ActionLink("Details", "DetailsProduct", new { id = item.productID }) |
+                @Html.ActionLink("Delete", "DeleteProduct", new { productID = item.productID })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<!-- Modal -->
+<button type="button" id="btn-dialog" class="btn btn-info btn-lg hidden" data-toggle="modal" data-target="#myModal">Open Modal</button>
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Modal Header</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    Name
+                    <div class="col-md-10">
+                        <input name="name" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    Detail
+                    <div class="col-md-10">
+                       <input name="detail"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    Price
+                    <div class="col-md-10">
+                        <input name="price"  type="number" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+
+    $(".edit-product").click(function () {
+        $('#btn-dialog').click();
+        var id = $(this).attr("data-id-product");
+         $.ajax({
+            type: "GET",
+            url: "/Admin/GetProduct?id=" + id +"&isaxja=true",
+             success: function (e) {
+                 console.log(e);
+                if (e.error == false) {
+                    alert(e.message)
+                } else {
+                  
+                }
+            }
+        })
+
+
+    });
+
+
+</script>
